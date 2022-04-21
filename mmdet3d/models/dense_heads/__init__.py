@@ -1,10 +1,15 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from .anchor3d_head import Anchor3DHead
 from .anchor_free_mono3d_head import AnchorFreeMono3DHead
+from .anchor_free_mono3d_head_sepbn import AnchorFreeMono3DHead_sepbn
+from .anchor_free_mono3d_sephead import AnchorFreeMono3DSepHead
+
 from .base_conv_bbox_head import BaseConvBboxHead
 from .base_mono3d_dense_head import BaseMono3DDenseHead
 from .centerpoint_head import CenterHead
 from .fcos_mono3d_head import FCOSMono3DHead
+from .fcos_mono3d_head_sepbn import FCOSMono3DHead_sepbn
+from .fcos_mono3d_sephead import FCOSMono3DSepHead
 from .free_anchor3d_head import FreeAnchor3DHead
 from .groupfree3d_head import GroupFree3DHead
 from .monoflex_head import MonoFlexHead
@@ -21,5 +26,7 @@ __all__ = [
     'SSD3DHead', 'BaseConvBboxHead', 'CenterHead', 'ShapeAwareHead',
     'BaseMono3DDenseHead', 'AnchorFreeMono3DHead', 'FCOSMono3DHead',
     'GroupFree3DHead', 'PointRPNHead', 'SMOKEMono3DHead', 'PGDHead',
-    'MonoFlexHead'
+    'MonoFlexHead', 
+    'AnchorFreeMono3DHead_sepbn', 'FCOSMono3DHead_sepbn',
+    'AnchorFreeMono3DSepHead', 'FCOSMono3DSepHead',
 ]
