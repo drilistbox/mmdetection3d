@@ -639,7 +639,10 @@ class FCOSMono3DHead(AnchorFreeMono3DHead):
             # change the offset to actual center predictions
             bbox_pred[:, :2] = points - bbox_pred[:, :2]
             if rescale:
-                bbox_pred[:, :2] /= bbox_pred[:, :2].new_tensor(scale_factor)
+                if len(scale_factor) <=2:
+                    bbox_pred[:, :2] /= bbox_pred[:, :2].new_tensor(scale_factor)
+                else:
+                    bbox_pred[:, :2] /= bbox_pred[:, :2].new_tensor(scale_factor[:2])
             pred_center2d = bbox_pred[:, :3].clone()
             bbox_pred[:, :3] = points_img2cam(bbox_pred[:, :3], view)
             mlvl_centers2d.append(pred_center2d)
