@@ -1,0 +1,86 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--no_aux_loss", "True",
+                "--eval", "False",
+                "--coco_path", "/workspace/datasets220/coco/coco2017",
+            ]
+        }
+    ]
+}
+
+tools/dist_train.sh projects/configs/obj_dgcnn/pillar.py 8
+tools/dist_test.sh  projects/configs/obj_dgcnn/pillar_cosine.py /path/to/ckpt 8 --eval=bbox
+
+#tools/dist_test_mychange.sh \
+tools/dist_train.sh \
+    projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py \
+    4
+
+#####
+#ok1, but beta err
+PYTHONPATH="tools/..":$PYTHONPATH \
+python -m torch.distributed.launch --nproc_per_node=4 --master_port=28500 \
+    tools/train.py projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py --launcher pytorch
+#ok2
+#ok2.1
+PYTHONPATH="tools/..":$PYTHONPATH \
+python tools/train.py projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py --launcher pytorch #err
+#ok2.2
+#ok2.2.1
+python tools/train.py projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py --launcher none    # ok
+#ok2.2.2
+cd tools
+python train.py --config /workspace/com14u07/projects/detr3d/projects/configs/detr3d/detr3d_res101_gridmask_cbgs_debug.py --launcher none --gpus 1   # ok
+
+#####
+    
+
+#tools/dist_test_mychange.sh \
+tools/dist_test.sh \
+    projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py \
+    /workspace/com14u07/projects/detr3d/pretrained/detr3d_resnet101_cbgs.pth \
+    1 \
+    --eval=bbox
+
+
+
+
+
+
+PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
+python -m torch.distributed.launch --nproc_per_node=1 \
+    tools/test.py \
+    projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py \
+    /workspace/com14u07/projects/detr3d/pretrained/detr3d_resnet101_cbgs.pth \
+    --launcher pytorch --eval bbox \
+    --show  --show-dir /workspace/com14u07/projects/detr3d/results
+
+    
+
+PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
+python \
+    tools/test.py \
+    projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py \
+    /workspace/com14u07/projects/detr3d/pretrained/detr3d_resnet101_cbgs.pth \
+    --launcher pytorch --eval bbox \
+    --show  --show-dir /workspace/com14u07/projects/detr3d/results
+
+PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
+python \
+    tools/test.py \
+    projects/configs/detr3d/detr3d_res101_gridmask_cbgs.py \
+    /workspace/com14u07/projects/detr3d/pretrained/detr3d_resnet101_cbgs.pth \
+    --launcher none --eval bbox \
+    --show  --show-dir /workspace/com14u07/projects/detr3d/results
