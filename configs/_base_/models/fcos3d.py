@@ -76,3 +76,7 @@ model = dict(
         score_thr=0.05,
         min_bbox_size=0,
         max_per_img=200))
+        # nms_thr=0.8,
+        # score_thr=0.05,
+        # nms_thr=0.5,
+        # score_thr=0.2,
